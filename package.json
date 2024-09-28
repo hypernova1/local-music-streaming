@@ -7,20 +7,22 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+
     "start:dev": "cross-env TZ=Asia/Seoul NODE_ENV=prod nest start --watch",
     "start:prod": "cross-env TZ=Asia/Seoul NODE_ENV=dev nest start --watch",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+
+    "script:music": "ts-node script/audio-loader.script.ts",
+
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/persistence/datasource.ts",
     "migration:create": "NODE_ENV=dev ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create src/config/persistence/migrations/Migration",
     "migration:gen": "NODE_ENV=dev MIGRATION_MODE=true npm run typeorm migration:generate src/config/persistence/migrations/Migration",
     "migration:run": "NODE_ENV=dev MIGRATION_MODE=true npm run typeorm migration:run",
     "migration:revert": "NODE_ENV=dev MIGRATION_MODE=true npm run typeorm migration:revert",
+
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

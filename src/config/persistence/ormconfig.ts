@@ -1,5 +1,5 @@
 import { DataSourceOptions } from "typeorm";
-import env from "../common/env";
+import env from "../../common/env";
 
 export const typeormConfig: DataSourceOptions = {
   type: 'postgres',
@@ -10,5 +10,5 @@ export const typeormConfig: DataSourceOptions = {
   database: 'samtreaming',
   synchronize: true,
   logging: ['error', 'schema', 'warn', 'query'],
-  entities: ['dist/src/**/*.entity{.js}'],
+  entities: ['dist/src/**/*.entity{.js,.ts}'],
 }

@@ -48,7 +48,6 @@ export default class Album extends AuditEntity {
 		super();
 	}
 
-
 	static from(param: {
 		title: string;
 		releaseDate: Date;

@@ -1,5 +1,5 @@
 enum FileType {
-	MUSIC = 'music',
+	AUDIO = 'audio',
 	IMAGE = 'image',
 }
 

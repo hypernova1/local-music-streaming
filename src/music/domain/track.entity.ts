@@ -1,5 +1,6 @@
 import AuditEntity from '../../config/persistence/audit.entity';
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import AudioFile from './audio-file.entity';
 
 @Entity({
 	name: 'track',
@@ -15,10 +16,29 @@ export default class Track extends AuditEntity {
 	id: number;
 
 	@Column({
+		comment: 'disk 번호',
+		name: 'disk_no',
+		type: 'integer',
+		unsigned: true,
+		nullable: true,
+	})
+	diskNo?: number;
+
+	@Column({
+		comment: '트랙 번호',
+		name: 'track_no',
+		type: 'integer',
+		unsigned: true,
+		default: 0,
+		nullable: true,
+	})
+	trackNo: number;
+
+	@Column({
 		comment: '제목',
 		name: 'title',
 		type: 'varchar',
-		nullable: false,
+		nullable: true,
 	})
 	title: string;
 
@@ -27,7 +47,7 @@ export default class Track extends AuditEntity {
 		name: 'album_id',
 		type: 'bigint',
 		unsigned: true,
-		nullable: false,
+		nullable: true,
 	})
 	@Index()
 	albumId: number;
@@ -37,7 +57,7 @@ export default class Track extends AuditEntity {
 		name: 'artist_id',
 		type: 'bigint',
 		unsigned: true,
-		nullable: false,
+		nullable: true,
 	})
 	@Index()
 	artistId: number;
@@ -45,7 +65,7 @@ export default class Track extends AuditEntity {
 	@Column({
 		comment: '아티스트 아이디',
 		name: 'play_time',
-		type: 'integer',
+		type: 'float',
 		unsigned: true,
 		nullable: false,
 	})
@@ -69,23 +89,35 @@ export default class Track extends AuditEntity {
 	})
 	lyrics?: string;
 
+	@OneToOne(() => AudioFile, (audioFile) => audioFile.track, { cascade: true })
+	audioFile: AudioFile;
+
 	protected constructor() {
 		super();
 	}
 
 	static from(param: {
+		diskNo?: number;
+		trackNo: number;
 		title: string,
 		albumId: number,
 		artistId: number,
 		playTime: number,
+		fileId: number,
 		lyrics?: string
 	}) {
 		const track = new Track();
+		track.diskNo = param.diskNo;
+		track.trackNo = param.trackNo;
 		track.title = param.title;
 		track.albumId = param.albumId;
 		track.artistId = param.artistId;
 		track.playTime = param.playTime;
 		track.lyrics = param.lyrics
+		const audioFile = new AudioFile();
+
+		audioFile.fileId = param.fileId;
+		track.audioFile = audioFile;
 		return track;
 	}
 }

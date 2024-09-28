@@ -1,5 +1,7 @@
 import AuditEntity from '../../config/persistence/audit.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import AlbumImageFile from './album-image-file.entity';
+import AlbumArtist from './album-artist.entity';
 
 @Entity({
 	comment: '앨범',
@@ -18,6 +20,7 @@ export default class Album extends AuditEntity {
 		comment: '앨범명',
 		type: 'varchar',
 		name: 'title',
+		nullable: true,
 	})
 	title: string;
 
@@ -25,14 +28,16 @@ export default class Album extends AuditEntity {
 		comment: '발매일',
 		name: 'release_date',
 		type: 'timestamp',
+		nullable: true,
 	})
-	releaseDate: Date;
+	releaseDate?: Date;
 
 	@Column({
 		comment: '총 재생 시간',
 		name: 'total_play_time',
-		type: 'integer',
+		type: 'float',
 		unsigned: true,
+		nullable: false,
 	})
 	totalPlayTime: number;
 
@@ -41,8 +46,15 @@ export default class Album extends AuditEntity {
 		name: 'number_of_tracks',
 		type: 'integer',
 		unsigned: true,
+		nullable: false,
 	})
 	numberOfTracks: number;
+
+	@OneToMany(() => AlbumArtist, (albumArtist) => albumArtist.album, { cascade: true })
+	albumArtists: AlbumArtist[]
+
+	@OneToOne(() => AlbumImageFile, (albumImageFile) => albumImageFile.album, { cascade: true })
+	albumImageFile?: AlbumImageFile;
 
 	protected constructor() {
 		super();
@@ -53,12 +65,42 @@ export default class Album extends AuditEntity {
 		releaseDate: Date;
 		totalPlayTime: number;
 		numberOfTracks: number;
+		fileId?: number;
 	}) {
 		const album = new Album();
 		album.title = param.title;
 		album.releaseDate = param.releaseDate;
 		album.totalPlayTime = param.totalPlayTime;
 		album.numberOfTracks = param.numberOfTracks;
+
+		if (param.fileId) {
+			const albumImageFile = new AlbumImageFile();
+			albumImageFile.fileId = param.fileId;
+			album.albumImageFile = albumImageFile;
+		}
 		return album;
+	}
+
+	update(param: { totalPlayTime: number; numberOfTracks: number }) {
+		this.totalPlayTime = param.totalPlayTime;
+		this.numberOfTracks = param.numberOfTracks;
+	}
+
+	addAlbumArtist(artistId: number) {
+		if (!artistId) {
+			return;
+		}
+
+		if (!this.albumArtists) {
+			this.albumArtists = [];
+		}
+
+		const existsArtist = this.albumArtists.some((aa) => aa.artistId === artistId)
+		if (existsArtist) {
+			return;
+		}
+		const albumArtist = new AlbumArtist();
+		albumArtist.artistId = artistId;
+		this.albumArtists.push(albumArtist);
 	}
 }

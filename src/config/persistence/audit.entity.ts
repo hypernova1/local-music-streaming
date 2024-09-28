@@ -11,7 +11,7 @@ export default abstract class AuditEntity {
 	createdAt: Date;
 
 	@UpdateDateColumn({
-		comment: '생성일',
+		comment: '수정일',
 		name: 'updated_at',
 		type: 'timestamp',
 		nullable: false,

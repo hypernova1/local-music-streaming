@@ -22,13 +22,23 @@ export default class Artist extends AuditEntity {
 	})
 	name: string;
 
+	@Column({
+		comment: '장르 아이디',
+		name: 'genre_id',
+		type: 'bigint',
+		unsigned: true,
+		nullable: false,
+	})
+	genreId: number;
+
 	protected constructor() {
 		super();
 	}
 
-	static from(param: { name: string }) {
+	static from(param: { name: string, genreId: number }) {
 		const artist = new Artist();
 		artist.name = param.name;
+		artist.genreId = param.genreId;
 		return artist;
 	}
 }

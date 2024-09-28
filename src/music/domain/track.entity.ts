@@ -67,5 +67,25 @@ export default class Track extends AuditEntity {
 		type: 'text',
 		nullable: true,
 	})
-	lyrics: string;
+	lyrics?: string;
+
+	protected constructor() {
+		super();
+	}
+
+	static from(param: {
+		title: string,
+		albumId: number,
+		artistId: number,
+		playTime: number,
+		lyrics?: string
+	}) {
+		const track = new Track();
+		track.title = param.title;
+		track.albumId = param.albumId;
+		track.artistId = param.artistId;
+		track.playTime = param.playTime;
+		track.lyrics = param.lyrics
+		return track;
+	}
 }

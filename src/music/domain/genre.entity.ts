@@ -21,4 +21,14 @@ export default class Genre extends AuditEntity {
 		nullable: false,
 	})
 	name: string;
+
+	protected constructor() {
+		super()
+	}
+
+	static from(param: { name: string }) {
+		const genre = new Genre();
+		genre.name = param.name;
+		return genre;
+	}
 }

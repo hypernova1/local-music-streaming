@@ -21,4 +21,14 @@ export default class Artist extends AuditEntity {
 		nullable: false,
 	})
 	name: string;
+
+	protected constructor() {
+		super();
+	}
+
+	static from(param: { name: string }) {
+		const artist = new Artist();
+		artist.name = param.name;
+		return artist;
+	}
 }

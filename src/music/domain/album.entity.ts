@@ -43,4 +43,23 @@ export default class Album extends AuditEntity {
 		unsigned: true,
 	})
 	numberOfTracks: number;
+
+	protected constructor() {
+		super();
+	}
+
+
+	static from(param: {
+		title: string;
+		releaseDate: Date;
+		totalPlayTime: number;
+		numberOfTracks: number;
+	}) {
+		const album = new Album();
+		album.title = param.title;
+		album.releaseDate = param.releaseDate;
+		album.totalPlayTime = param.totalPlayTime;
+		album.numberOfTracks = param.numberOfTracks;
+		return album;
+	}
 }

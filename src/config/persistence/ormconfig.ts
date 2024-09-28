@@ -8,7 +8,7 @@ export const typeormConfig: DataSourceOptions = {
   host: env.DB_HOST,
   port: env.DB_PORT,
   database: 'samtreaming',
-  synchronize: true,
+  synchronize: false,
   logging: ['error', 'schema', 'warn'],
   entities: ['dist/src/**/*.entity{.js,.ts}'],
 }

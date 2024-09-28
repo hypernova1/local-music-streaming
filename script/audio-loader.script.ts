@@ -1,16 +1,16 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import Track from '../src/music/domain/track.entity';
-import Album from '../src/music/domain/album.entity';
-import Artist from '../src/music/domain/artist.entity';
-import Genre from '../src/music/domain/genre.entity';
+import Track from '../src/music/domain/track/track.entity';
+import Album from '../src/music/domain/album/album.entity';
+import Artist from '../src/music/domain/artist/artist.entity';
+import Genre from '../src/music/domain/genre/genre.entity';
 import { DataSource, Repository } from 'typeorm';
 import { typeormConfig } from '../src/config/persistence/ormconfig';
 import File from '../src/file/file.entity';
 import FileType from '../src/file/file-type';
-import AudioFile from '../src/music/domain/audio-file.entity';
-import AlbumImageFile from '../src/music/domain/album-image-file.entity';
-import AlbumArtist from '../src/music/domain/album-artist.entity';
+import AudioFile from '../src/music/domain/track/audio-file.entity';
+import AlbumImageFile from '../src/music/domain/album/album-image-file.entity';
+import AlbumArtist from '../src/music/domain/album/album-artist.entity';
 import AudioMetadataParser from './audio-metadata-parser';
 import FileValidator from './file-validator';
 import ImageWriter from './image-writer';
@@ -234,7 +234,6 @@ class MusicMetadataLoader {
 	}
 }
 
-// 사용 예제
 (async () => {
 	try {
 		const loader = new MusicMetadataLoader(new AudioMetadataParser());

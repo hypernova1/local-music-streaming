@@ -1,4 +1,4 @@
-import AuditEntity from '../../config/persistence/audit.entity';
+import AuditEntity from '../../../config/persistence/audit.entity';
 import { Column, Entity, Index, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import AudioFile from './audio-file.entity';
 

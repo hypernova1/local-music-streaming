@@ -1,4 +1,4 @@
-import AuditEntity from '../../config/persistence/audit.entity';
+import AuditEntity from '../../../config/persistence/audit.entity';
 import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import AlbumImageFile from './album-image-file.entity';
 import AlbumArtist from './album-artist.entity';

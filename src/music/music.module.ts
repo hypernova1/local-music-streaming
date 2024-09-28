@@ -1,11 +1,33 @@
 import { Module } from '@nestjs/common';
-import TrackRepository from './repository/track.repository';
+import TrackTypeormRepository from './repository/track.typeorm.repository';
 import MusicController from './ui/music.controller';
 import MusicService from './application/music.service';
+import GenreTypeormRepository from './repository/genre.typeorm.repository';
+import AlbumTypeormRepository from './repository/album.typeorm.repository';
+import ArtistTypeormRepository from './repository/artist.typeorm.repository';
+import { ALBUM_REPOSITORY, ARTIST_REPOSITORY, GENRE_REPOSITORY, TRACK_REPOSITORY } from '../common/token';
 
 @Module({
 	imports: [],
-	providers: [MusicService, TrackRepository],
+	providers: [
+		MusicService,
+		{
+			provide: TRACK_REPOSITORY,
+			useClass: TrackTypeormRepository,
+		},
+		{
+			provide: GENRE_REPOSITORY,
+			useClass: GenreTypeormRepository,
+		},
+		{
+			provide: ALBUM_REPOSITORY,
+			useClass: AlbumTypeormRepository,
+		},
+		{
+			provide: ARTIST_REPOSITORY,
+			useClass: ArtistTypeormRepository,
+		},
+	],
 	controllers: [MusicController],
 })
 export default class MusicModule {}

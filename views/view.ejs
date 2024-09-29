@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>음악 서비스</title>
+    <style>
+        .button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>음악 서비스</h1>
+
+<div>
+    <button class="button" onclick="location.href='<%= genre.rootUrl %>';"> <%= genre.displayName %> </button>
+    <button class="button" onclick="location.href='<%= artist.rootUrl %>';"> <%= artist.displayName %> </button>
+    <button class="button" onclick="location.href='<%= track.rootUrl %>';"> <%= track.displayName %> </button>
+</div>
+</body>
+</html>

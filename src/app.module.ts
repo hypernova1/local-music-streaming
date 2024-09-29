@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/persistence/ormconfig';
 import MusicModule from './music/music.module';
 import datasource from './config/persistence/datasource';
+import AppController from './app.controller';
 
 @Module({
 	imports: [
@@ -16,7 +17,7 @@ import datasource from './config/persistence/datasource';
 		}),
 		MusicModule,
 	],
-	controllers: [],
+	controllers: [AppController],
 	providers: [],
 })
 export class AppModule {}

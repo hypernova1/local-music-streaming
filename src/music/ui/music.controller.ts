@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import MusicService from '../application/music.service';
 import PageRequest from '../../common/page-request';
 
@@ -6,19 +6,24 @@ import PageRequest from '../../common/page-request';
 export default class MusicController {
 	constructor(private readonly musicService: MusicService) {}
 
-	@Get('/graph/albums')
+	@Get('/albums')
 	async getAlbums(@Query() pageRequest: PageRequest) {
-		return await this.musicService.getAlbums(pageRequest);
+		return this.musicService.getAlbums(pageRequest);
 	}
 
-	@Get('/graph/genres')
+	@Get('/albums/:albumId/tracks')
+	async getAlbumTracks(@Param('albumId') albumId: number) {
+		return this.musicService.getAlbumTracks(albumId);
+	}
+
+	@Get('/genres')
 	async getGenres(@Query() pageRequest: PageRequest) {
 		pageRequest.size = 1000;
-		return await this.musicService.getGenres(pageRequest);
+		return this.musicService.getGenres(pageRequest);
 	}
 
-	@Get('/graph/artists')
+	@Get('/artists')
 	async getArtists(@Query() pageRequest: PageRequest) {
-		await this.musicService.getArtists(pageRequest);
+		return this.musicService.getArtists(pageRequest);
 	}
 }

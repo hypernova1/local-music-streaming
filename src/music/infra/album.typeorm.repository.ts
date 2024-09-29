@@ -11,7 +11,9 @@ export default class AlbumTypeormRepository extends Repository<Album> implements
 	}
 
 	async findAllAndCount(pageRequest: PageRequest) {
-		return this.createQueryBuilder()
+		return this.createQueryBuilder('album')
+			.leftJoinAndSelect('album.albumArtists', 'albumArtist')
+			.leftJoinAndSelect('albumArtist.artist', 'artist')
 			.take(pageRequest.limit)
 			.offset(pageRequest.offset)
 			.getManyAndCount();

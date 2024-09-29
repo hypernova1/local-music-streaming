@@ -1,5 +1,6 @@
 import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import Album from './album.entity';
+import Artist from '../artist/artist.entity';
 
 @Entity({
 	comment: '앨범 아티스트',
@@ -27,5 +28,11 @@ export default class AlbumArtist {
 		name: 'album_id',
 	})
 	album: Album;
+
+	@ManyToOne(() => Artist)
+	@JoinColumn({
+		name: 'artist_id',
+	})
+	artist: Artist;
 
 }

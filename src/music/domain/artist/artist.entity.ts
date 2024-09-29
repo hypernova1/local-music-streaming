@@ -1,5 +1,6 @@
 import AuditEntity from '../../../config/persistence/audit.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import AlbumArtist from '../album/album-artist.entity';
 
 @Entity({
 	comment: '아티스트',
@@ -31,11 +32,14 @@ export default class Artist extends AuditEntity {
 	})
 	genreId: number;
 
+	@OneToMany(() => AlbumArtist, (albumArtist) => albumArtist.artist)
+	albumArtists: AlbumArtist[];
+
 	protected constructor() {
 		super();
 	}
 
-	static from(param: { name: string, genreId: number }) {
+	static from(param: { name: string; genreId: number }) {
 		const artist = new Artist();
 		artist.name = param.name;
 		artist.genreId = param.genreId;

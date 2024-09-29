@@ -8,4 +8,11 @@ export default class TrackTypeormRepository extends Repository<Track> implements
 	constructor(dataSource: DataSource) {
 		super(Track, dataSource.createEntityManager());
 	}
+
+	findByAlbumId(albumId: number): Promise<Track[]> {
+		return this.createQueryBuilder('track')
+			.where('track.albumId = :albumId', { albumId })
+			.orderBy('track.trackNo', 'ASC')
+			.getMany();
+	}
 }

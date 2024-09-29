@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import TrackTypeormRepository from './repository/track.typeorm.repository';
+import TrackTypeormRepository from './infra/track.typeorm.repository';
 import MusicController from './ui/music.controller';
 import MusicService from './application/music.service';
-import GenreTypeormRepository from './repository/genre.typeorm.repository';
-import AlbumTypeormRepository from './repository/album.typeorm.repository';
-import ArtistTypeormRepository from './repository/artist.typeorm.repository';
+import GenreTypeormRepository from './infra/genre.typeorm.repository';
+import AlbumTypeormRepository from './infra/album.typeorm.repository';
+import ArtistTypeormRepository from './infra/artist.typeorm.repository';
 import { ALBUM_REPOSITORY, ARTIST_REPOSITORY, GENRE_REPOSITORY, TRACK_REPOSITORY } from '../common/token';
 
 @Module({

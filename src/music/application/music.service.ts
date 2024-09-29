@@ -35,7 +35,10 @@ export default class MusicService {
 
 	async getAlbums(pageRequest: PageRequest) {
 		const [albums, numberOfAlbums] = await this.albumRepository.findAllAndCount(pageRequest);
-		const items = albums.map((album) => new AlbumDto(album));
+		const items = albums.map((album) => {
+			const artistNames = album.albumArtists.map((aa) => aa.artist.name);
+			return new AlbumDto(album, artistNames);
+		});
 		return new PageResponse(numberOfAlbums, items, pageRequest);
 	}
 
@@ -53,8 +56,19 @@ export default class MusicService {
 
 		return tracks.map((track) => {
 			const artist = artists.find((artist) => artist.id === track.artistId);
-			assert(artist)
+			assert(artist);
 			return new TrackDto(track, artist.name);
 		});
+	}
+
+	async getTracks(pageRequest: PageRequest) {
+		const [tracks, numberOfTracks] = await this.trackRepository.findAllAndCount(pageRequest);
+		const artists = await this.artistRepository.findByIds(tracks.map((track) => track.artistId));
+		const items = tracks.map((track) => {
+			const artist = artists.find((artist) => artist.id === track.artistId);
+			assert(artist);
+			return new TrackDto(track, artist.name);
+		});
+		return new PageResponse(numberOfTracks, items, pageRequest);
 	}
 }

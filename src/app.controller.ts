@@ -7,18 +7,22 @@ export default class AppController {
 	@Render('view')
 	getIndexPage() {
 		return {
-			genre: {
-				displayName: '장르',
-				rootUrl: '/genres',
-			},
-			artist: {
-				displayName: '아티스트',
-				rootUrl: '/artists',
-			},
-			track: {
-				displayName: '전체 음악',
-				rootUrl: '/tracks',
+			selectedMenu: 'genre',
+			menus: {
+				genre: {
+					displayName: '장르',
+					rootUrl: '/genres',
+				},
+				artist: {
+					displayName: '아티스트',
+					rootUrl: '/artists',
+				},
+				track: {
+					displayName: '전체 음악',
+					rootUrl: '/tracks',
+				}
 			}
+
 		}
 	}
 

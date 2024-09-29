@@ -2,23 +2,121 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>음악 서비스</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .content {
+            padding-bottom: 60px; /* 하단 네비게이션 바 공간 확보 */
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: #f1f1f1;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
         .button {
-            padding: 10px 20px;
-            margin: 5px;
+            flex: 1;
+            text-align: center;
+            padding: 10px;
             font-size: 16px;
+            border: none;
+            background-color: white;
             cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .button:active {
+            background-color: #ccc;
+        }
+
+        .data-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .data-list li {
+            padding: 5px 0;
         }
     </style>
 </head>
 <body>
-<h1>음악 서비스</h1>
 
-<div>
-    <button class="button" onclick="location.href='<%= genre.rootUrl %>';"> <%= genre.displayName %> </button>
-    <button class="button" onclick="location.href='<%= artist.rootUrl %>';"> <%= artist.displayName %> </button>
-    <button class="button" onclick="location.href='<%= track.rootUrl %>';"> <%= track.displayName %> </button>
+<div class="content">
+    <h1>음악 서비스</h1>
+    <div id="data-output">데이터를 불러오는 중...</div>
 </div>
+
+<div class="bottom-nav">
+    <button class="button" onclick="loadData('<%= menus.genre.rootUrl %>', 'genre');">
+        <%= menus.genre.displayName %>
+    </button>
+    <button class="button" onclick="loadData('<%= menus.artist.rootUrl %>', 'artist');">
+        <%= menus.artist.displayName %>
+    </button>
+    <button class="button" onclick="loadData('<%= menus.track.rootUrl %>', 'track');">
+        <%= menus.track.displayName %>
+    </button>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		loadData('<%= menus.genre.rootUrl %>', 'genre');
+	});
+
+	function loadData(url, type) {
+		fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				const dataOutput = document.getElementById('data-output');
+				dataOutput.innerHTML = '';  // 기존 데이터를 초기화
+
+				const list = document.createElement('ul');
+				list.className = 'data-list';
+
+				// 각 타입에 따라 데이터 처리 방식 결정
+				if (type === 'genre') {
+					data.forEach(item => {
+						const listItem = document.createElement('li');
+						listItem.textContent = item.name;
+						list.appendChild(listItem);
+					});
+				} else if (type === 'artist') {
+					data.forEach(item => {
+						const listItem = document.createElement('li');
+						listItem.textContent = `${item.name} (Albums: ${item.albums})`;
+						list.appendChild(listItem);
+					});
+				} else if (type === 'track') {
+					data.forEach(item => {
+						const listItem = document.createElement('li');
+						listItem.textContent = `${item.title} - ${item.duration}`;
+						list.appendChild(listItem);
+					});
+				}
+
+				dataOutput.appendChild(list);
+			})
+			.catch(error => {
+				console.error('데이터 로드 실패:', error);
+				document.getElementById('data-output').innerHTML = '데이터 로드에 실패했습니다.';
+			});
+	}
+</script>
+
 </body>
 </html>

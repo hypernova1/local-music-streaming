@@ -6,10 +6,10 @@ export default class AlbumDto {
 	totalPlayTime: number;
 	artists: string[];
 
-	constructor(album: Album) {
+	constructor(album: Album, artistNames: string[]) {
 		this.id = album.id;
 		this.title = album.title;
 		this.totalPlayTime = album.totalPlayTime;
-		this.artists = album.albumArtists.map((albumArtist) => albumArtist.artist.name);
+		this.artists = artistNames;
 	}
 }

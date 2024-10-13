@@ -9,6 +9,6 @@ export default class ArtistDto {
 	constructor(artist: Artist) {
 		this.id = artist.id;
 		this.name = artist.name;
-		this.albums = artist.albumArtists.map((artistAlbum) => new AlbumDto(artistAlbum.album, [artist.name]));
+		this.albums = artist.albumArtists.map((artistAlbum) => new AlbumDto(artistAlbum.album, [{ id: artist.id, name: artist.name }]));
 	}
 }

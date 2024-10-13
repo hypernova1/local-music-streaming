@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import PageRequest from '../../common/page-request';
 import GenreRepository from '../domain/genre/genre.repository';
 import { ALBUM_REPOSITORY, ARTIST_REPOSITORY, GENRE_REPOSITORY, TRACK_REPOSITORY } from '../../common/token';
@@ -36,7 +36,7 @@ export default class MusicService {
 	async getAlbums(pageRequest: PageRequest) {
 		const [albums, numberOfAlbums] = await this.albumRepository.findAllAndCount(pageRequest);
 		const items = albums.map((album) => {
-			const artistNames = album.albumArtists.map((aa) => aa.artist.name);
+			const artistNames = album.albumArtists.map((aa) => ({ id: aa.artist.id, name: aa.artist.name }));
 			return new AlbumDto(album, artistNames);
 		});
 		return new PageResponse(numberOfAlbums, items, pageRequest);
@@ -57,7 +57,7 @@ export default class MusicService {
 		return tracks.map((track) => {
 			const artist = artists.find((artist) => artist.id === track.artistId);
 			assert(artist);
-			return new TrackDto(track, artist.name);
+			return new TrackDto(track, { id: artist.id, name: artist.name });
 		});
 	}
 
@@ -67,8 +67,9 @@ export default class MusicService {
 		const items = tracks.map((track) => {
 			const artist = artists.find((artist) => artist.id === track.artistId);
 			assert(artist);
-			return new TrackDto(track, artist.name);
+			return new TrackDto(track, { id: artist.id, name: artist.name });
 		});
 		return new PageResponse(numberOfTracks, items, pageRequest);
 	}
+s
 }

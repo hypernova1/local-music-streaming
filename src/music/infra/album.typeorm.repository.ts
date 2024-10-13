@@ -18,4 +18,12 @@ export default class AlbumTypeormRepository extends Repository<Album> implements
 			.offset(pageRequest.offset)
 			.getManyAndCount();
 	}
+
+	findByArtistId(artistId: number): Promise<Album[]> {
+		return this.createQueryBuilder('album')
+			.leftJoinAndSelect('album.albumArtists', 'albumArtist')
+			.leftJoinAndSelect('albumArtist.artist', 'artist')
+			.where('artist.id = :artistId', { artistId })
+			.getMany();
+	}
 }

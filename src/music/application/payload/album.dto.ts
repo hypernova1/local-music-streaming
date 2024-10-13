@@ -4,12 +4,15 @@ export default class AlbumDto {
 	id: number;
 	title: string;
 	totalPlayTime: number;
-	artists: string[];
+	artists: {
+		id: number;
+		name: string;
+	}[];
 
-	constructor(album: Album, artistNames: string[]) {
+	constructor(album: Album, artists: { id: number; name: string }[]) {
 		this.id = album.id;
 		this.title = album.title;
 		this.totalPlayTime = album.totalPlayTime;
-		this.artists = artistNames;
+		this.artists = artists;
 	}
 }

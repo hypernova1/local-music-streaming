@@ -1,7 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import MusicService from '../application/music.service';
 import PageRequest from '../../common/page-request';
-import Artist from '../domain/artist/artist.entity';
 
 @Controller()
 export default class MusicController {
@@ -32,4 +31,5 @@ export default class MusicController {
 	async getArtists(@Query() pageRequest: PageRequest) {
 		return this.musicService.getArtists(pageRequest);
 	}
+
 }

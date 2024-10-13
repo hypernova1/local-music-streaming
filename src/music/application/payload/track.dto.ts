@@ -5,13 +5,13 @@ export default class TrackDto {
 	trackNo: number;
 	title: string;
 	playTime: number;
-	artistName: string;
+	artist: { id: number; name: string };
 
-	constructor(track: Track, artistName: string) {
+	constructor(track: Track, artist: { id: number; name: string }) {
 		this.id = track.id;
 		this.trackNo = track.trackNo;
 		this.title = track.title;
 		this.playTime = track.playTime;
-		this.artistName = artistName;
+		this.artist = artist;
 	}
 }

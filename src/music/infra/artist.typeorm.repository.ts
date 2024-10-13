@@ -18,4 +18,10 @@ export default class ArtistTypeormRepository extends Repository<Artist> implemen
 			.offset(pageRequest.offset)
 			.getManyAndCount();
 	}
+
+	findById(id: number): Promise<Artist> {
+		return this.createQueryBuilder('artist')
+			.where('artist.id = :id', { id })
+			.getOne();
+	}
 }

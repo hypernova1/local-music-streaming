@@ -3,4 +3,5 @@ import Album from './album.entity';
 
 export default interface AlbumRepository {
 	findAllAndCount(pageRequest: PageRequest): Promise<[Album[], number]>;
+	findByArtistId(artistId: number): Promise<Album[]>;
 }
